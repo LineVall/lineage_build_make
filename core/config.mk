@@ -406,6 +406,10 @@ endif
 # See envsetup.mk for a description of SCAN_EXCLUDE_DIRS
 FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 
+ifneq ($(LINEVALL_BUILD),)
+include vendor/linevall/config/BoardConfigLinevall.mk
+endif
+
 -include vendor/extra/BoardConfigExtra.mk
 
 # The build system exposes several variables for where to find the kernel
@@ -1297,6 +1301,12 @@ endif
 # in the source tree.
 dont_bother_goals := out product-graph
 
+ifneq ($(LINEVALL_BUILD),)
+## We need to be sure the global selinux policies are included
+## last, to avoid accidental resetting by device configs
+$(eval include device/linevall/sepolicy/common/sepolicy.mk)
+endif
+
 # Make ANDROID Soong config variables visible to Android.mk files, for
 # consistency with those defined in BoardConfig.mk files.
 include $(BUILD_SYSTEM)/android_soong_config_vars.mk
@@ -1310,5 +1320,8 @@ endif
 -include external/ltp/android/ltp_package_list.mk
 DEFAULT_DATA_OUT_MODULES := ltp $(ltp_packages) $(kselftest_modules)
 .KATI_READONLY := DEFAULT_DATA_OUT_MODULES
+
+# Include any vendor specific config.mk file
+-include vendor/*/build/core/config.mk
 
 include $(BUILD_SYSTEM)/dumpvar.mk
