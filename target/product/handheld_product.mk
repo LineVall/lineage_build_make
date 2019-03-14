@@ -28,7 +28,6 @@ PRODUCT_PACKAGES += \
     DeskClock \
     Gallery2 \
     LatinIME \
-    Music \
     preinstalled-packages-platform-handheld-product.xml \
     SettingsIntelligence \
     frameworks-base-overlays
