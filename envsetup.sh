@@ -2101,4 +2101,6 @@ set_global_paths
 source_vendorsetup
 addcompletions
 
+export ANDROID_BUILD_TOP=$(gettop)
+
 . $ANDROID_BUILD_TOP/vendor/linevall/build/envsetup.sh
